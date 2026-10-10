@@ -1,0 +1,1 @@
+package com.joemart.model; public enum Role { ADMIN, BUYER, SELLER }

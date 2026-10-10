@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joe Mart - Everything delivered in 10 minutes</title>
+  <style>
+    :root {
+      --bg-primary: #f4f6fb;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --primary-green: #0c831f;
+      --primary-green-hover: #0a6f1a;
+      --accent-yellow: #f7c942;
+      --accent-yellow-light: #fff9e6;
+      --text-dark: #1c1c1c;
+      --text-muted: #666666;
+      --border-color: #e8e8e8;
+      --danger: #e53935;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      line-height: 1.4;
+    }
+
+    /* Quick Commerce Header */
+    header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-logo {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--accent-yellow);
+      text-shadow: -1px -1px 0 var(--primary-green), 1px -1px 0 var(--primary-green), -1px 1px 0 var(--primary-green), 1px 1px 0 var(--primary-green);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .delivery-badge {
+      background: var(--accent-yellow-light);
+      border: 1px solid var(--accent-yellow);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 550px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: #f8f8f8;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary-green);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(12, 131, 31, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cart-indicator {
+      background: var(--primary-green);
+      color: #ffffff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(12, 131, 31, 0.2);
+    }
+
+    .cart-badge {
+      background: var(--accent-yellow);
+      color: var(--text-dark);
+      font-weight: 800;
+      padding: 0.1rem 0.55rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+    }
+
+    .btn {
+      padding: 0.65rem 1.3rem;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .btn-green {
+      background: var(--primary-green);
+      color: #ffffff;
+    }
+
+    .btn-green:hover {
+      background: var(--primary-green-hover);
+      transform: translateY(-1px);
+    }
+
+    .user-tag {
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: rgba(12, 131, 31, 0.1);
+      color: var(--primary-green);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      border: 1px solid rgba(12, 131, 31, 0.2);
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1280px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Blinkit Banner */
+    .promo-banner {
+      background: linear-gradient(135deg, #0c831f 0%, #15a02c 100%);
+      color: #ffffff;
+      padding: 1.2rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .promo-banner h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .promo-banner p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    /* Seller Dashboard Panel */
+    .dashboard-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      display: none;
+    }
+
+    .dashboard-panel.active {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .form-group input {
+      padding: 0.65rem;
+      background: #f9f9f9;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-dark);
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary-green);
+      background: #ffffff;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .badge-eta {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--accent-yellow);
+      color: var(--text-dark);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .product-img-wrapper {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fafafa;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+    }
+
+    .product-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+    }
+
+    .product-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+      line-height: 1.25;
+      min-height: 2.4em;
+    }
+
+    .price-container {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .current-price {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .strike-price {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .btn-add {
+      width: 100%;
+      background: #f7fff9;
+      border: 1px solid var(--primary-green);
+      color: var(--primary-green);
+      font-weight: 800;
+      padding: 0.55rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .btn-add:hover {
+      background: var(--primary-green);
+      color: #ffffff;
+    }
+
+    /* Live Ledger Section */
+    .ledger-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ledger-list {
+      list-style: none;
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .ledger-item {
+      background: #f9f9f9;
+      border-left: 4px solid var(--primary-green);
+      padding: 0.7rem 1rem;
+      border-radius: 0 8px 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .ledger-time {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: normal;
+    }
+
+    /* Authentication Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+
+    .modal-tabs {
+      display: flex;
+      background: #f2f2f2;
+      border-radius: 10px;
+      padding: 0.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.6rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+    }
+
+    .tab-btn.active {
+      background: var(--bg-surface);
+      color: var(--primary-green);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    @media (max-width: 640px) {
+      .nav-container {
+        flex-wrap: wrap;
+      }
+      .search-box {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+      }
+      .promo-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <div class="nav-container">
+      <div class="brand-section">
+        <a href="#" class="brand-logo">Joe Mart</a>
+        <div class="delivery-badge">
+          ⚡ 8 MINS
+        </div>
+      </div>
+      
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search 'milk', 'bread', 'chips'..." onkeyup="filterProducts()">
+      </div>
+
+      <div class="nav-actions">
+        <div class="cart-indicator">
+          🛒 <span>My Cart</span>
+          <span class="cart-badge" id="cartCount">0</span>
+        </div>
+        <div id="userProfileTag" class="user-tag" style="display: none;"></div>
+        <button id="authBtn" class="btn btn-green" onclick="openAuthModal()">Sign In</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- Blinkit Style Quick Banner -->
+    <div class="promo-banner">
+      <div>
+        <h1>Instant Groceries Delivered Fast ⚡</h1>
+        <p>Fresh produce, snacks, and daily essentials straight to your doorstep.</p>
+      </div>
+    </div>
+    
+    <!-- Seller/Admin Dashboard Panel -->
+    <section id="sellerDashboard" class="dashboard-panel">
+      <div class="section-header">
+        <h2 class="section-title">📦 Merchant Quick-Inventory Panel</h2>
+      </div>
+      <form id="addProductForm" onsubmit="handleAddProduct(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Product Title</label>
+            <input type="text" id="prodTitle" placeholder="e.g. Fresh Organic Milk 1L" required>
+          </div>
+          <div class="form-group">
+            <label>Offer Price ($)</label>
+            <input type="number" id="prodPrice" step="0.01" placeholder="2.49" required>
+          </div>
+          <div class="form-group">
+            <label>Strike Price ($)</label>
+            <input type="number" id="prodStrikePrice" step="0.01" placeholder="3.20" required>
+          </div>
+          <div class="form-group">
+            <label>Image URL (Unsplash)</label>
+            <input type="url" id="prodImgUrl" placeholder="https://images.unsplash.com/..." required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-green" style="margin-top: 1.2rem;">Add Product to Live Store</button>
+      </form>
+    </section>
+
+    <!-- Product Catalog Section -->
+    <section>
+      <div class="section-header">
+        <span class="section-title">Trending Essentials</span>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- Activity Ledger Panel -->
+    <section class="ledger-panel">
+      <h3 class="section-title" style="font-size: 1rem; margin-bottom: 0.8rem;">
+        ⚡ Live Order Activity Ledger
+      </h3>
+      <ul class="ledger-list" id="ledgerList">
+        <li class="ledger-item" style="border-left-color: var(--text-muted);">
+          <span>Joe Mart Quick-Hub online. Processing fast dispatch orders...</span>
+          <span class="ledger-time">Just now</span>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeAuthModal()">&times;</button>
+      <div style="margin-bottom: 1rem; text-align: center;">
+        <h2 style="font-weight: 800; color: var(--primary-green);">Joe Mart Portal</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Select test profile to login</p>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="tab-btn active" onclick="selectRole('admin')">Admin</button>
+        <button class="tab-btn" onclick="selectRole('seller')">Seller</button>
+        <button class="tab-btn" onclick="selectRole('buyer')">Buyer</button>
+      </div>
+
+      <form class="auth-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="authEmail" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="authPassword" required>
+        </div>
+        <button type="submit" class="btn btn-green" style="width: 100%; margin-top: 0.5rem;">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // System State
+    let currentUser = null;
+    let cartCount = 0;
+    let activeRoleTab = 'admin';
+
+    // Initial Blinkit-style Quick Grocery Products
+    let products = [
+      {
+        id: 1,
+        title: "Farm Fresh Whole Milk (1L)",
+        price: 2.49,
+        strikePrice: 3.20,
+        image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=500&q=80"
+      },
+      {
+        id: 2,
+        title: "Artisanal Sourdough Bread",
+        price: 3.99,
+        strikePrice: 4.80,
+        image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80"
+      },
+      {
+        id: 3,
+        title: "Fresh Organic Hass Avocados (3 pcs)",
+        price: 4.29,
+        strikePrice: 5.50,
+        image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=500&q=80"
+      },
+      {
+        id: 4,
+        title: "Cold Pressed Orange Juice (500ml)",
+        price: 3.49,
+        strikePrice: 4.50,
+        image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=500&q=80"
+      }
+    ];
+
+    // Testing Credentials
+    const credentials = {
+      admin: { email: 'admin@irfaanmart.com', pass: 'admin123', name: 'Joe Admin' },
+      seller: { email: 'seller@irfaanmart.com', pass: 'seller123', name: 'Express Seller' },
+      buyer: { email: 'buyer@irfaanmart.com', pass: 'buyer123', name: 'Quick Buyer' }
+    };
+
+    // Render Product Cards Grid
+    function renderProducts(itemsToRender = products) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = itemsToRender.map(prod => `
+        <div class="product-card">
+          <span class="badge-eta">⚡ 8 MINS</span>
+          <div class="product-img-wrapper">
+            <img src="${prod.image}" alt="${prod.title}" class="product-img" loading="lazy">
+          </div>
+          <div class="product-title">${prod.title}</div>
+          <div class="price-container">
+            <span class="current-price">$${prod.price.toFixed(2)}</span>
+            <span class="strike-price">$${prod.strikePrice.toFixed(2)}</span>
+          </div>
+          <button class="btn-add" onclick="commitOrder(${prod.id})">Commit Order</button>
+        </div>
+      `).join('');
+    }
+
+    // Modal Control
+    function openAuthModal() {
+      if (currentUser) {
+        addLedgerEntry(`User ${currentUser.email} signed out.`);
+        currentUser = null;
+        updateUIState();
+        return;
+      }
+      document.getElementById('authModal').classList.add('active');
+      selectRole('admin');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.remove('active');
+    }
+
+    function selectRole(role) {
+      activeRoleTab = role;
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', ['admin', 'seller', 'buyer'][idx] === role);
+      });
+      document.getElementById('authEmail').value = credentials[role].email;
+      document.getElementById('authPassword').value = credentials[role].pass;
+    }
+
+    // Login Action
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmail').value;
+      const role = activeRoleTab;
+
+      currentUser = {
+        role: role,
+        email: email,
+        name: credentials[role].name
+      };
+
+      addLedgerEntry(`Authenticated: [${role.toUpperCase()}] ${email}`);
+      closeAuthModal();
+      updateUIState();
+    }
+
+    // Toggle Role Dashboard Views
+    function updateUIState() {
+      const authBtn = document.getElementById('authBtn');
+      const userTag = document.getElementById('userProfileTag');
+      const dashboard = document.getElementById('sellerDashboard');
+
+      if (currentUser) {
+        authBtn.innerText = "Sign Out";
+        userTag.style.display = "inline-block";
+        userTag.innerText = `${currentUser.name} (${currentUser.role.toUpperCase()})`;
+
+        if (currentUser.role === 'admin' || currentUser.role === 'seller') {
+          dashboard.classList.add('active');
+        } else {
+          dashboard.classList.remove('active');
+        }
+      } else {
+        authBtn.innerText = "Sign In";
+        userTag.style.display = "none";
+        dashboard.classList.remove('active');
+      }
+    }
+
+    // Add Product to Store
+    function handleAddProduct(e) {
+      e.preventDefault();
+      const title = document.getElementById('prodTitle').value;
+      const price = parseFloat(document.getElementById('prodPrice').value);
+      const strikePrice = parseFloat(document.getElementById('prodStrikePrice').value);
+      const image = document.getElementById('prodImgUrl').value;
+
+      const newProduct = {
+        id: Date.now(),
+        title,
+        price,
+        strikePrice,
+        image
+      };
+
+      products.unshift(newProduct);
+      renderProducts();
+      addLedgerEntry(`INVENTORY ADDED: "${title}" priced at $${price.toFixed(2)}`);
+
+      document.getElementById('addProductForm').reset();
+    }
+
+    // Commit Order Logic
+    function commitOrder(productId) {
+      if (!currentUser) {
+        alert("Authentication Required: Please sign in to place instant orders.");
+        openAuthModal();
+        return;
+      }
+
+      const prod = products.find(p => p.id === productId);
+      if (!prod) return;
+
+      cartCount++;
+      document.getElementById('cartCount').innerText = cartCount;
+
+      addLedgerEntry(`DISPATCH ORDER: "${prod.title}" ($${prod.price.toFixed(2)}) for ${currentUser.email}`);
+    }
+
+    // Realtime Ledger Append
+    function addLedgerEntry(message) {
+      const list = document.getElementById('ledgerList');
+      const timeStr = new Date().toLocaleTimeString();
+      
+      const li = document.createElement('li');
+      li.className = 'ledger-item';
+      li.innerHTML = `
+        <span>${message}</span>
+        <span class="ledger-time">${timeStr}</span>
+      `;
+      list.insertBefore(li, list.firstChild);
+    }
+
+    // Instant Filter
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = products.filter(p => p.title.toLowerCase().includes(query));
+      renderProducts(filtered);
+    }
+
+    // Initial Load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+    });
+  </script>
+</body>
+</html>

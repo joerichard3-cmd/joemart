@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOE MART - Admin</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f5f9;
+        }
+        header {
+            background: #172337;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ddd;
+        }
+        button {
+            padding: 10px 16px;
+            background: #2874f0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a { color: #2874f0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JOE MART - Admin Dashboard</h1>
+        <p>Manage your shopping website</p>
+    </header>
+
+    <main>
+        <h2>Welcome, Admin!</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Products</h3>
+                <p>View products available in the store.</p>
+                <button onclick="viewProducts()">View Products</button>
+            </div>
+
+            <div class="card">
+                <h3>Orders</h3>
+                <p>Order management module.</p>
+                <button onclick="viewOrders()">View Orders</button>
+            </div>
+
+            <div class="card">
+                <h3>Customers</h3>
+                <p>Customer management module.</p>
+                <button onclick="viewCustomers()">View Customers</button>
+            </div>
+        </div>
+
+        <p id="message"></p>
+        <p><a href="/">Back to Home</a></p>
+    </main>
+
+    <script>
+        function viewProducts() {
+            document.getElementById("message").textContent =
+                "Product management API needs to be connected.";
+        }
+
+        function viewOrders() {
+            document.getElementById("message").textContent =
+                "Order management API needs to be connected.";
+        }
+
+        function viewCustomers() {
+            document.getElementById("message").textContent =
+                "Customer management API needs to be connected.";
+        }
+    </script>
+</body>
+</html>
